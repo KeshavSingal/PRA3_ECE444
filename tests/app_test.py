@@ -80,7 +80,8 @@ def test_delete_message(client):
     rv = client.get('/delete/1')
     data = json.loads(rv.data)
     assert data["status"] == 1
-    
+
+
 @pytest.fixture
 def client():
     BASE_DIR = Path(__file__).resolve().parent.parent
@@ -92,3 +93,4 @@ def client():
         db.create_all()  # setup
         yield app.test_client()  # tests run here
         db.drop_all()  # teardown
+
