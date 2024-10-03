@@ -7,6 +7,9 @@ from flask import Flask, g, render_template, request, session, \
 from flask_sqlalchemy import SQLAlchemy
 from functools import wraps
 
+# internal postgresql://ece444_deploy_dbtest_dhzl_user:lSRv6dycgmocbXfsOGE2OrYR6XpgOGR8@dpg-crvgm0e8ii6s73e87iqg-a/ece444_deploy_dbtest_dhzl
+
+# external postgresql://ece444_deploy_dbtest_dhzl_user:lSRv6dycgmocbXfsOGE2OrYR6XpgOGR8@dpg-crvgm0e8ii6s73e87iqg-a.oregon-postgres.render.com/ece444_deploy_dbtest_dhzl
 
 basedir = Path(__file__).resolve().parent
 
@@ -22,7 +25,7 @@ url = os.getenv('DATABASE_URL', f'sqlite:///{Path(basedir).joinpath(DATABASE)}')
 if url.startswith("postgres://"):
     url = url.replace("postgres://", "postgresql://", 1)
 
-SQLALCHEMY_DATABASE_URI = url
+SQLALCHEMY_DATABASE_URI = "postgresql://ece444_deploy_dbtest_dhzl_user:lSRv6dycgmocbXfsOGE2OrYR6XpgOGR8@dpg-crvgm0e8ii6s73e87iqg-a.oregon-postgres.render.com/ece444_deploy_dbtest_dhzl"
 
 
 # create and initialize a new Flask app
