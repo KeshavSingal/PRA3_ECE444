@@ -2,8 +2,9 @@ import os
 import pytest
 from pathlib import Path
 import json 
+from project.app import app, db
 
-from project.app import app, init_db
+# from project.app import app, init_db
 
 TEST_DB = "test.db"
 
@@ -79,3 +80,15 @@ def test_delete_message(client):
     rv = client.get('/delete/1')
     data = json.loads(rv.data)
     assert data["status"] == 1
+    
+@pytest.fixture
+def client():
+    BASE_DIR = Path(__file__).resolve().parent.parent
+    app.config["TESTING"] = True
+    app.config["DATABASE"] = BASE_DIR.joinpath(TEST_DB)
+    app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{BASE_DIR.joinpath(TEST_DB)}"
+
+    with app.app_context():
+        db.create_all()  # setup
+        yield app.test_client()  # tests run here
+        db.drop_all()  # teardown
